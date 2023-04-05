@@ -3,13 +3,6 @@ import numpy as np
 import random
 
 
-
-#==============================================================================
-#===  PART I  =================================================================
-#==============================================================================
-
-
-
 def get_order(n_samples):
     try:
         with open(str(n_samples) + '.txt') as fp:
@@ -22,9 +15,8 @@ def get_order(n_samples):
         return indices
 
 
-
 def hinge_loss_single(feature_vector: np.ndarray, label: float
-                      , theta: np.ndarray, theta_0: float):
+                      , theta: np.ndarray, theta_0: float) -> float:
     """Finds the hinge loss on a single data point given specific classification
     parameters.
 
@@ -38,13 +30,12 @@ def hinge_loss_single(feature_vector: np.ndarray, label: float
         the hinge loss, as a float, associated with the given data point and
         parameters.
     """
-    return max(0, 1 - (label * np.inner(feature_vector, theta) + theta_0))
+    y = label * (np.inner(feature_vector, theta) + theta_0)
+    return max(0, 1 - y)
 
 
-
-def hinge_loss_full(feature_matrix, labels, theta, theta_0):
-    """
-    Finds the hinge loss for given classification parameters averaged over a
+def hinge_loss_full(feature_matrix: np.ndarray, labels: np.ndarray, theta: np.ndarray, theta_0: float):
+    """Finds the hinge loss for given classification parameters averaged over a
     given dataset
 
     Args:
@@ -56,13 +47,12 @@ def hinge_loss_full(feature_matrix, labels, theta, theta_0):
         `theta_0` - real valued number representing the offset parameter.
     Returns:
         the hinge loss, as a float, associated with the given dataset and
-        parameters.  This number should be the average hinge loss across all of
+        parameters. This number should be the average hinge loss across all
+        of the data
     """
-
-    # Your code here
-    raise NotImplementedError
-
-
+    y = labels * (feature_matrix @ theta + theta_0)
+    loss_vector = np.maximum(0, 1 - y)
+    return np.mean(loss_vector)
 
 
 def perceptron_single_step_update(
