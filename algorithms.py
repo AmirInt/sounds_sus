@@ -34,7 +34,8 @@ def hinge_loss_single(feature_vector: np.ndarray, label: float
     return max(0, 1 - y)
 
 
-def hinge_loss_full(feature_matrix: np.ndarray, labels: np.ndarray, theta: np.ndarray, theta_0: float):
+def hinge_loss_full(feature_matrix: np.ndarray, labels: np.ndarray
+                    , theta: np.ndarray, theta_0: float):
     """Finds the hinge loss for given classification parameters averaged over a
     given dataset
 
@@ -55,13 +56,9 @@ def hinge_loss_full(feature_matrix: np.ndarray, labels: np.ndarray, theta: np.nd
     return np.mean(loss_vector)
 
 
-def perceptron_single_step_update(
-        feature_vector,
-        label,
-        current_theta,
-        current_theta_0):
-    """
-    Updates the classification parameters `theta` and `theta_0` via a single
+def perceptron_single_step_update(feature_vector: np.ndarray, label: float,
+                                  current_theta: np.ndarray, current_theta_0: float):
+    """Updates the classification parameters `theta` and `theta_0` via a single
     step of the perceptron algorithm.  Returns new parameters rather than
     modifying in-place.
 
@@ -76,10 +73,14 @@ def perceptron_single_step_update(
         the updated feature-coefficient parameter `theta` as a numpy array
         the updated offset parameter `theta_0` as a floating point number
     """
-    # Your code here
-    raise NotImplementedError
+    # For numerical instability we compare the result by an epsilon instead of 0.0
+    epsilon = 0.01
 
+    if label * (np.inner(feature_vector, current_theta) + current_theta_0) < epsilon:
+        current_theta += label * feature_vector
+        current_theta_0 += label
 
+    return (current_theta, current_theta_0)
 
 def perceptron(feature_matrix, labels, T):
     """
