@@ -23,9 +23,9 @@ def get_order(n_samples):
 
 
 
-def hinge_loss_single(feature_vector, label, theta, theta_0):
-    """
-    Finds the hinge loss on a single data point given specific classification
+def hinge_loss_single(feature_vector: np.ndarray, label: float
+                      , theta: np.ndarray, theta_0: float):
+    """Finds the hinge loss on a single data point given specific classification
     parameters.
 
     Args:
@@ -38,8 +38,7 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
         the hinge loss, as a float, associated with the given data point and
         parameters.
     """
-    # Your code here
-    raise NotImplementedError
+    return max(0, 1 - (label * np.inner(feature_vector, theta) + theta_0))
 
 
 
