@@ -104,13 +104,16 @@ def perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int) -> tuple:
         the offset parameter `theta_0` as a floating point number
             (found also after T iterations through the feature matrix).
     """
-    for t in range(T):
-        for i in get_order(nsamples):
-            # Your code here
-            raise NotImplementedError
-    # Your code here
-    raise NotImplementedError
+    (n_samples, n_features) = feature_matrix.shape
+    theta = np.zeros(n_features)
+    theta_0 = 0.0
 
+    for _ in range(T):
+        for i in get_order(n_samples):
+            theta, theta_0 = perceptron_single_step_update(
+                feature_matrix[i], labels[i], theta, theta_0)
+
+    return (theta, theta_0)
 
 
 def average_perceptron(feature_matrix, labels, T):
