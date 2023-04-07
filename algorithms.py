@@ -3,7 +3,7 @@ import numpy as np
 import random
 
 
-def get_order(n_samples):
+def get_order(n_samples: int) -> list:
     try:
         with open(str(n_samples) + '.txt') as fp:
             line = fp.readline()
@@ -35,7 +35,7 @@ def hinge_loss_single(feature_vector: np.ndarray, label: float
 
 
 def hinge_loss_full(feature_matrix: np.ndarray, labels: np.ndarray
-                    , theta: np.ndarray, theta_0: float):
+                    , theta: np.ndarray, theta_0: float) -> float:
     """Finds the hinge loss for given classification parameters averaged over a
     given dataset
 
@@ -57,7 +57,7 @@ def hinge_loss_full(feature_matrix: np.ndarray, labels: np.ndarray
 
 
 def perceptron_single_step_update(feature_vector: np.ndarray, label: float,
-                                  current_theta: np.ndarray, current_theta_0: float):
+                                  current_theta: np.ndarray, current_theta_0: float) -> tuple:
     """Updates the classification parameters `theta` and `theta_0` via a single
     step of the perceptron algorithm.  Returns new parameters rather than
     modifying in-place.
@@ -82,7 +82,7 @@ def perceptron_single_step_update(feature_vector: np.ndarray, label: float,
 
     return (current_theta, current_theta_0)
 
-def perceptron(feature_matrix, labels, T):
+def perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int) -> tuple:
     """
     Runs the full perceptron algorithm on a given set of data. Runs T
     iterations through the data set: we do not stop early.
@@ -104,8 +104,6 @@ def perceptron(feature_matrix, labels, T):
         the offset parameter `theta_0` as a floating point number
             (found also after T iterations through the feature matrix).
     """
-    # Your code here
-    raise NotImplementedError
     for t in range(T):
         for i in get_order(nsamples):
             # Your code here
