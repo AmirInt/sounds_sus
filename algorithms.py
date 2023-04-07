@@ -115,7 +115,7 @@ def perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int) -> tuple:
     return (theta, theta_0)
 
 
-def average_perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int):
+def average_perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int) -> tuple:
     """Runs the average perceptron algorithm on a given dataset.  Runs `T`
     iterations through the dataset (we do not stop early) and therefore
     averages over `T` many parameter values.
