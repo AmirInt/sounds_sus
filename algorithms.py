@@ -83,8 +83,7 @@ def perceptron_single_step_update(feature_vector: np.ndarray, label: float,
     return (current_theta, current_theta_0)
 
 def perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int) -> tuple:
-    """
-    Runs the full perceptron algorithm on a given set of data. Runs T
+    """Runs the full perceptron algorithm on a given set of data. Runs T
     iterations through the data set: we do not stop early.
 
     NOTE: Please use the previously implemented functions when applicable.
@@ -116,9 +115,8 @@ def perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int) -> tuple:
     return (theta, theta_0)
 
 
-def average_perceptron(feature_matrix, labels, T):
-    """
-    Runs the average perceptron algorithm on a given dataset.  Runs `T`
+def average_perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int):
+    """Runs the average perceptron algorithm on a given dataset.  Runs `T`
     iterations through the dataset (we do not stop early) and therefore
     averages over `T` many parameter values.
 
@@ -142,8 +140,25 @@ def average_perceptron(feature_matrix, labels, T):
         the average offset parameter `theta_0` as a floating point number
             (averaged also over T iterations through the feature matrix).
     """
-    # Your code here
-    raise NotImplementedError
+    (n_samples, n_features) = feature_matrix.shape
+    theta = np.zeros(n_features)
+    theta_0 = 0.0
+
+    theta_sum = np.zeros(n_features)
+    theta_0_sum = 0.0
+
+    for _ in range(T):
+        for i in get_order(n_samples):
+            theta, theta_0 = perceptron_single_step_update(
+                feature_matrix[i], labels[i], theta, theta_0)
+            
+            theta_sum += theta
+            theta_0_sum += theta_0
+
+    avg_theta = theta_sum / (n_samples * T)
+    avg_theta_0 = theta_0_sum / (n_samples * T)
+
+    return (avg_theta, avg_theta_0)
 
 
 def pegasos_single_step_update(
