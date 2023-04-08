@@ -1,6 +1,7 @@
 from string import punctuation, digits
 import numpy as np
 import random
+import math
 
 
 def get_order(n_samples: int) -> list:
@@ -168,7 +169,7 @@ def pegasos_single_step_update(
         L: float,
         eta: float,
         theta: np.ndarray,
-        theta_0: float):
+        theta_0: float) -> tuple:
     """Updates the classification parameters `theta` and `theta_0` via a single
     step of the Pegasos algorithm.  Returns new parameters rather than
     modifying in-place.
@@ -198,9 +199,8 @@ def pegasos_single_step_update(
     return (theta, theta_0)
 
 
-def pegasos(feature_matrix, labels, T, L):
-    """
-    Runs the Pegasos algorithm on a given set of data. Runs T iterations
+def pegasos(feature_matrix: np.ndarray, labels: np.ndarray, T: int, L: float) -> tuple:
+    """Runs the Pegasos algorithm on a given set of data. Runs T iterations
     through the data set, there is no need to worry about stopping early.  For
     each update, set learning rate = 1/sqrt(t), where t is a counter for the
     number of updates performed so far (between 1 and nT inclusive).
@@ -225,9 +225,21 @@ def pegasos(feature_matrix, labels, T, L):
         the value of the theta_0, the offset classification parameter, found
         after T iterations through the feature matrix.
     """
-    # Your code here
-    raise NotImplementedError
+    n_samples, n_features = feature_matrix.shape
+    theta = np.zeros(n_features)
+    theta_0 = 0.0
 
+    t = 1
+
+    for _ in range (T):
+        order = get_order(n_samples)
+        for i in order:
+            eta = 1.0 / math.sqrt(t)            
+            theta, theta_0 = pegasos_single_step_update(
+                feature_matrix[i], labels[i], L, eta, theta, theta_0)
+            t += 1
+    
+    return (theta, theta_0)
 
 
 #==============================================================================
