@@ -82,6 +82,7 @@ def perceptron_single_step_update(feature_vector: np.ndarray, label: float,
 
     return (current_theta, current_theta_0)
 
+
 def perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int) -> tuple:
     """Runs the full perceptron algorithm on a given set of data. Runs T
     iterations through the data set: we do not stop early.
@@ -162,14 +163,13 @@ def average_perceptron(feature_matrix: np.ndarray, labels: np.ndarray, T: int) -
 
 
 def pegasos_single_step_update(
-        feature_vector,
-        label,
-        L,
-        eta,
-        theta,
-        theta_0):
-    """
-    Updates the classification parameters `theta` and `theta_0` via a single
+        feature_vector: np.ndarray,
+        label: float,
+        L: float,
+        eta: float,
+        theta: np.ndarray,
+        theta_0: float):
+    """Updates the classification parameters `theta` and `theta_0` via a single
     step of the Pegasos algorithm.  Returns new parameters rather than
     modifying in-place.
 
@@ -188,9 +188,14 @@ def pegasos_single_step_update(
         real valued number with the value of theta_0 after the old updated has
         completed.
     """
-    # Your code here
-    raise NotImplementedError
-
+    # Original paper is "< 1.0", but the course accepts "<= 1.0"
+    if label * (np.inner(feature_vector, theta) + theta_0) <= 1.0:
+        theta = (1 - eta * L) * theta + eta * label * feature_vector
+        theta_0 += eta * label
+        return (theta, theta_0) 
+    # else
+    theta = (1 - eta * L) * theta
+    return (theta, theta_0)
 
 
 def pegasos(feature_matrix, labels, T, L):
