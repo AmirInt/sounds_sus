@@ -284,15 +284,10 @@ def classify(feature_matrix: np.ndarray, theta: np.ndarray, theta_0: float) -> n
     return tags
 
 
-def classifier_accuracy(
-        classifier,
-        train_feature_matrix,
-        val_feature_matrix,
-        train_labels,
-        val_labels,
-        **kwargs):
-    """
-    Trains a linear classifier and computes accuracy.  The classifier is
+def classifier_accuracy(classifier: callable, train_feature_matrix: np.ndarray,
+                        val_feature_matrix: np.ndarray, train_labels: np.ndarray,
+                        val_labels: np.ndarray, **kwargs) -> tuple:
+    """Trains a linear classifier and computes accuracy.  The classifier is
     trained on the train data.  The classifier's accuracy on the train and
     validation data is then returned.
 
@@ -317,14 +312,21 @@ def classifier_accuracy(
         trained classifier on the training data and the second element is the
         accuracy of the trained classifier on the validation data.
     """
-    # Your code here
-    raise NotImplementedError
+    # Learn
+    theta, theta_0 = classifier(train_feature_matrix, train_labels, **kwargs)
+    
+    # Compare and evaluate
+    train_tags = classify(train_feature_matrix, theta, theta_0)
+    train_accuracy = accuracy(train_tags, train_labels)
+    
+    validation_tags = classify(val_feature_matrix, theta, theta_0)
+    validation_accuracy = accuracy(validation_tags, val_labels)
 
+    return (train_accuracy, validation_accuracy)
 
 
 def extract_words(text):
-    """
-    Helper function for `bag_of_words(...)`.
+    """Helper function for `bag_of_words(...)`.
     Args:
         a string `text`.
     Returns:
@@ -384,10 +386,8 @@ def extract_bow_feature_vectors(reviews: tuple or list, indices_by_word: dict, b
     return feature_matrix
 
 
-
 def accuracy(preds, targets):
-    """
-    Given length-N vectors containing predicted and target labels,
+    """Given length-N vectors containing predicted and target labels,
     returns the fraction of predictions that are correct.
     """
     return (preds == targets).mean()
