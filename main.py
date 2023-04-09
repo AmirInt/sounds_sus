@@ -17,8 +17,8 @@ test_texts, test_labels = zip(*((sample['text'], sample['sentiment']) for sample
 dictionary = algorithms.bag_of_words(train_texts)
 
 train_bow_features = algorithms.extract_bow_feature_vectors(train_texts, dictionary)
-# val_bow_features = algorithms.extract_bow_feature_vectors(val_texts, dictionary)
-# test_bow_features = algorithms.extract_bow_feature_vectors(test_texts, dictionary)
+val_bow_features = algorithms.extract_bow_feature_vectors(val_texts, dictionary)
+test_bow_features = algorithms.extract_bow_feature_vectors(test_texts, dictionary)
 
 #-------------------------------------------------------------------------------
 # Problem 5

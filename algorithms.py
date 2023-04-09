@@ -258,9 +258,8 @@ def pegasos(feature_matrix: np.ndarray, labels: np.ndarray, T: int, L: float) ->
 
 
 
-def classify(feature_matrix, theta, theta_0):
-    """
-    A classification function that uses given parameters to classify a set of
+def classify(feature_matrix: np.ndarray, theta: np.ndarray, theta_0: float) -> np.ndarray:
+    """A classification function that uses given parameters to classify a set of
     data points.
 
     Args:
@@ -275,8 +274,14 @@ def classify(feature_matrix, theta, theta_0):
         given theta and theta_0. If a prediction is GREATER THAN zero, it
         should be considered a positive classification.
     """
-    # Your code here
-    raise NotImplementedError
+    # For numerical error, we introduce a safety margin
+    epsilon = 0.01
+
+    results = feature_matrix @ theta + theta_0
+    tags = (results > epsilon).astype(int)
+    tags *= 2
+    tags -= 1
+    return tags
 
 
 def classifier_accuracy(
