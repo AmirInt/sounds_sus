@@ -76,7 +76,7 @@ def perceptron_single_step_update(feature_vector: np.ndarray, label: float,
         the updated offset parameter `theta_0` as a floating point number
     """
     # For numerical instability we compare the result by an epsilon instead of 0.0
-    epsilon = 0.01
+    epsilon = 1e-7
 
     if label * (np.inner(feature_vector, current_theta) + current_theta_0) < epsilon:
         current_theta += label * feature_vector
@@ -275,7 +275,7 @@ def classify(feature_matrix: np.ndarray, theta: np.ndarray, theta_0: float) -> n
         should be considered a positive classification.
     """
     # For numerical error, we introduce a safety margin
-    epsilon = 0.01
+    epsilon = 1e-7
 
     results = feature_matrix @ theta + theta_0
     tags = (results > epsilon).astype(int)
