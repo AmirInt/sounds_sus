@@ -16,6 +16,7 @@ def load_toy_data(path_toy_data):
     Returns the tuple (features, labels) in which features is an Nx2 numpy matrix and
     labels is a length-N vector of +1/-1 labels.
     """
+    path_toy_data = "resources/" + path_toy_data
     labels, xs, ys = np.loadtxt(path_toy_data, delimiter='\t', unpack=True)
     return np.vstack((xs, ys)).T, labels
 
@@ -38,6 +39,8 @@ def load_data(path_data, extras=False):
 
     basic_fields = {'sentiment', 'text'}
     numeric_fields = {'sentiment', 'helpfulY', 'helpfulN'}
+
+    path_data = "resources/" + path_data
 
     data = []
     if PYTHON3:
