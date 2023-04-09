@@ -332,7 +332,7 @@ def extract_words(text):
     return text.lower().split()
 
 
-def bag_of_words(texts: tuple, remove_stopword=False) -> dict:
+def bag_of_words(texts: tuple or list, remove_stopword: bool = False) -> dict:
     """Maps all the words in given input texts to some indices in a dictionary.
     NOTE: feel free to change this code as guided by Section 3 (e.g. remove
     stopwords, add bigrams etc.)
@@ -356,9 +356,9 @@ def bag_of_words(texts: tuple, remove_stopword=False) -> dict:
     return indices_by_word
 
 
+def extract_bow_feature_vectors(reviews: tuple or list, indices_by_word: dict, binarise: bool = True):
+    """Creates a boolean feature matrix based on the reviews
 
-def extract_bow_feature_vectors(reviews, indices_by_word, binarize=True):
-    """
     Args:
         `reviews` - a list of natural language strings
         `indices_by_word` - a dictionary of uniquely-indexed words.
@@ -367,16 +367,15 @@ def extract_bow_feature_vectors(reviews, indices_by_word, binarize=True):
         matrix thus has shape (n, m), where n counts reviews and m counts words
         in the dictionary.
     """
-    # Your code here
     feature_matrix = np.zeros([len(reviews), len(indices_by_word)], dtype=np.float64)
     for i, text in enumerate(reviews):
         word_list = extract_words(text)
         for word in word_list:
-            if word not in indices_by_word: continue
+            if word not in indices_by_word:
+                continue
             feature_matrix[i, indices_by_word[word]] += 1
-    if binarize:
-        # Your code here
-        raise NotImplementedError
+    if binarise:
+        feature_matrix = (feature_matrix > 0).astype(np.float64)
     return feature_matrix
 
 
