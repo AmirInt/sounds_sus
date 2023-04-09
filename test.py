@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import traceback
-import algorithms as p1
+import algorithms
 import numpy as np
 
 verbose = False
@@ -95,12 +95,12 @@ def check_list(ex_name, f, exp_res, *args):
 def check_get_order():
     ex_name = "Get order"
     if check_list(
-            ex_name, p1.get_order,
+            ex_name, algorithms.get_order,
             [0], 1):
         log("You should revert `get_order` to its original implementation for this test to pass")
         return
     if check_list(
-            ex_name, p1.get_order,
+            ex_name, algorithms.get_order,
             [1, 0], 2):
         log("You should revert `get_order` to its original implementation for this test to pass")
         return
@@ -114,7 +114,7 @@ def check_hinge_loss_single():
     label, theta, theta_0 = 1, np.array([-1, 1]), -0.2
     exp_res = 1 - 0.8
     if check_real(
-            ex_name, p1.hinge_loss_single,
+            ex_name, algorithms.hinge_loss_single,
             exp_res, feature_vector, label, theta, theta_0):
         return
     log(green("PASS"), ex_name, "")
@@ -127,7 +127,7 @@ def check_hinge_loss_full():
     label, theta, theta_0 = np.array([1, 1]), np.array([-1, 1]), -0.2
     exp_res = 1 - 0.8
     if check_real(
-            ex_name, p1.hinge_loss_full,
+            ex_name, algorithms.hinge_loss_full,
             exp_res, feature_vector, label, theta, theta_0):
         return
 
@@ -141,7 +141,7 @@ def check_perceptron_single_update():
     label, theta, theta_0 = 1, np.array([-1, 1]), -1.5
     exp_res = (np.array([0, 3]), -0.5)
     if check_tuple(
-            ex_name, p1.perceptron_single_step_update,
+            ex_name, algorithms.perceptron_single_step_update,
             exp_res, feature_vector, label, theta, theta_0):
         return
 
@@ -149,7 +149,7 @@ def check_perceptron_single_update():
     label, theta, theta_0 = 1, np.array([-1, 1]), -1
     exp_res = (np.array([0, 3]), 0)
     if check_tuple(
-            ex_name + " (boundary case)", p1.perceptron_single_step_update,
+            ex_name + " (boundary case)", algorithms.perceptron_single_step_update,
             exp_res, feature_vector, label, theta, theta_0):
         return
 
@@ -164,7 +164,7 @@ def check_perceptron():
     T = 1
     exp_res = (np.array([1, 2]), 1)
     if check_tuple(
-            ex_name, p1.perceptron,
+            ex_name, algorithms.perceptron,
             exp_res, feature_matrix, labels, T):
         return
 
@@ -173,7 +173,7 @@ def check_perceptron():
     T = 1
     exp_res = (np.array([0, 2]), 2)
     if check_tuple(
-            ex_name, p1.perceptron,
+            ex_name, algorithms.perceptron,
             exp_res, feature_matrix, labels, T):
         return
 
@@ -182,7 +182,7 @@ def check_perceptron():
     T = 2
     exp_res = (np.array([1, 2]), 1)
     if check_tuple(
-            ex_name, p1.perceptron,
+            ex_name, algorithms.perceptron,
             exp_res, feature_matrix, labels, T):
         return
 
@@ -191,7 +191,7 @@ def check_perceptron():
     T = 2
     exp_res = (np.array([0, 2]), 2)
     if check_tuple(
-            ex_name, p1.perceptron,
+            ex_name, algorithms.perceptron,
             exp_res, feature_matrix, labels, T):
         return
 
@@ -206,7 +206,7 @@ def check_average_perceptron():
     T = 1
     exp_res = (np.array([1, 2]), 1)
     if check_tuple(
-            ex_name, p1.average_perceptron,
+            ex_name, algorithms.average_perceptron,
             exp_res, feature_matrix, labels, T):
         return
 
@@ -215,7 +215,7 @@ def check_average_perceptron():
     T = 1
     exp_res = (np.array([-0.5, 1]), 1.5)
     if check_tuple(
-            ex_name, p1.average_perceptron,
+            ex_name, algorithms.average_perceptron,
             exp_res, feature_matrix, labels, T):
         return
 
@@ -224,7 +224,7 @@ def check_average_perceptron():
     T = 2
     exp_res = (np.array([1, 2]), 1)
     if check_tuple(
-            ex_name, p1.average_perceptron,
+            ex_name, algorithms.average_perceptron,
             exp_res, feature_matrix, labels, T):
         return
 
@@ -233,7 +233,7 @@ def check_average_perceptron():
     T = 2
     exp_res = (np.array([-0.25, 1.5]), 1.75)
     if check_tuple(
-            ex_name, p1.average_perceptron,
+            ex_name, algorithms.average_perceptron,
             exp_res, feature_matrix, labels, T):
         return
 
@@ -249,7 +249,7 @@ def check_pegasos_single_update():
     eta = 0.1
     exp_res = (np.array([-0.88, 1.18]), -1.4)
     if check_tuple(
-            ex_name, p1.pegasos_single_step_update,
+            ex_name, algorithms.pegasos_single_step_update,
             exp_res,
             feature_vector, label, L, eta, theta, theta_0):
         return
@@ -260,7 +260,7 @@ def check_pegasos_single_update():
     eta = 0.1
     exp_res = (np.array([-0.88, 1.08]), 1.1)
     if check_tuple(
-            ex_name +  " (boundary case)", p1.pegasos_single_step_update,
+            ex_name +  " (boundary case)", algorithms.pegasos_single_step_update,
             exp_res,
             feature_vector, label, L, eta, theta, theta_0):
         return
@@ -271,7 +271,7 @@ def check_pegasos_single_update():
     eta = 0.1
     exp_res = (np.array([-0.88, 1.18]), -1.9)
     if check_tuple(
-            ex_name, p1.pegasos_single_step_update,
+            ex_name, algorithms.pegasos_single_step_update,
             exp_res,
             feature_vector, label, L, eta, theta, theta_0):
         return
@@ -288,7 +288,7 @@ def check_pegasos():
     L = 0.2
     exp_res = (np.array([1, 2]), 1)
     if check_tuple(
-            ex_name, p1.pegasos,
+            ex_name, algorithms.pegasos,
             exp_res, feature_matrix, labels, T, L):
         return
 
@@ -298,7 +298,7 @@ def check_pegasos():
     L = 1
     exp_res = (np.array([1-1/np.sqrt(2), 1-1/np.sqrt(2)]), 1)
     if check_tuple(
-            ex_name, p1.pegasos,
+            ex_name, algorithms.pegasos,
             exp_res, feature_matrix, labels, T, L):
         return
 
@@ -313,7 +313,7 @@ def check_classify():
     theta_0 = 0
     exp_res = np.array([1, 1, 1])
     if check_array(
-            ex_name, p1.classify,
+            ex_name, algorithms.classify,
             exp_res, feature_matrix, theta, theta_0):
         return
 
@@ -322,7 +322,7 @@ def check_classify():
     theta_0 = 0
     exp_res = np.array([-1])
     if check_array(
-            ex_name + " (boundary case)", p1.classify,
+            ex_name + " (boundary case)", algorithms.classify,
             exp_res, feature_matrix, theta, theta_0):
         return
 
@@ -338,9 +338,9 @@ def check_classifier_accuracy():
     exp_res = 1, 0
     T=1
     if check_tuple(
-            ex_name, p1.classifier_accuracy,
+            ex_name, algorithms.classifier_accuracy,
             exp_res,
-            p1.perceptron,
+            algorithms.perceptron,
             train_feature_matrix, val_feature_matrix,
             train_labels, val_labels,
             T=T):
@@ -354,9 +354,9 @@ def check_classifier_accuracy():
     T=1
     L=0.2
     if check_tuple(
-            ex_name, p1.classifier_accuracy,
+            ex_name, algorithms.classifier_accuracy,
             exp_res,
-            p1.pegasos,
+            algorithms.pegasos,
             train_feature_matrix, val_feature_matrix,
             train_labels, val_labels,
             T=T, L=L):
@@ -372,7 +372,7 @@ def check_bag_of_words():
         "There is nothing better"]
 
     try:
-        res = p1.bag_of_words(texts)
+        res = algorithms.bag_of_words(texts)
     except NotImplementedError:
         log(red("FAIL"), ex_name, ": not implemented")
         return
@@ -416,7 +416,7 @@ def check_extract_bow_feature_vectors():
 
 
     try:
-        res = p1.extract_bow_feature_vectors(texts, dictionary)
+        res = algorithms.extract_bow_feature_vectors(texts, dictionary)
     except NotImplementedError:
         log(red("FAIL"), ex_name, ": not implemented")
         return

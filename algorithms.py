@@ -325,8 +325,6 @@ def extract_words(text):
         a list of lowercased words in the string, where punctuation and digits
         count as their own words.
     """
-    # Your code here
-    raise NotImplementedError
 
     for c in punctuation + digits:
         text = text.replace(c, ' ' + c + ' ')
@@ -334,8 +332,8 @@ def extract_words(text):
 
 
 
-def bag_of_words(texts, remove_stopword=False):
-    """
+def bag_of_words(texts: tuple, remove_stopword=False) -> dict:
+    """Maps all the words in given input texts to some indices in a dictionary.
     NOTE: feel free to change this code as guided by Section 3 (e.g. remove
     stopwords, add bigrams etc.)
 
@@ -345,8 +343,6 @@ def bag_of_words(texts, remove_stopword=False):
         a dictionary that maps each word appearing in `texts` to a unique
         integer `index`.
     """
-    # Your code here
-    raise NotImplementedError
     
     indices_by_word = {}  # maps word to unique index
     for text in texts:
