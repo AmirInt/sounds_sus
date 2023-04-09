@@ -14,7 +14,7 @@ train_texts, train_labels = zip(*((sample['text'], sample['sentiment']) for samp
 val_texts, val_labels = zip(*((sample['text'], sample['sentiment']) for sample in val_data))
 test_texts, test_labels = zip(*((sample['text'], sample['sentiment']) for sample in test_data))
 
-# dictionary = algorithms.bag_of_words(train_texts)
+dictionary = algorithms.bag_of_words(train_texts)
 
 # train_bow_features = algorithms.extract_bow_feature_vectors(train_texts, dictionary)
 # val_bow_features = algorithms.extract_bow_feature_vectors(val_texts, dictionary)
@@ -24,23 +24,23 @@ test_texts, test_labels = zip(*((sample['text'], sample['sentiment']) for sample
 # Problem 5
 #-------------------------------------------------------------------------------
 
-toy_features, toy_labels = toy_data = utils.load_toy_data('toy_data.tsv')
+# toy_features, toy_labels = toy_data = utils.load_toy_data('toy_data.tsv')
 
-T = 10
-L = 0.2
+# T = 10
+# L = 0.2
 
-thetas_perceptron = algorithms.perceptron(toy_features, toy_labels, T)
-thetas_avg_perceptron = algorithms.average_perceptron(toy_features, toy_labels, T)
-thetas_pegasos = algorithms.pegasos(toy_features, toy_labels, T, L)
+# thetas_perceptron = algorithms.perceptron(toy_features, toy_labels, T)
+# thetas_avg_perceptron = algorithms.average_perceptron(toy_features, toy_labels, T)
+# thetas_pegasos = algorithms.pegasos(toy_features, toy_labels, T, L)
 
-def plot_toy_results(algo_name, thetas):
-    print('theta for', algo_name, 'is', ', '.join(map(str, list(thetas[0]))))
-    print('theta_0 for', algo_name, 'is', str(thetas[1]))
-    utils.plot_toy_data(algo_name, toy_features, toy_labels, thetas)
+# def plot_toy_results(algo_name, thetas):
+#     print('theta for', algo_name, 'is', ', '.join(map(str, list(thetas[0]))))
+#     print('theta_0 for', algo_name, 'is', str(thetas[1]))
+#     utils.plot_toy_data(algo_name, toy_features, toy_labels, thetas)
 
-plot_toy_results('Perceptron', thetas_perceptron)
-plot_toy_results('Average Perceptron', thetas_avg_perceptron)
-plot_toy_results('Pegasos', thetas_pegasos)
+# plot_toy_results('Perceptron', thetas_perceptron)
+# plot_toy_results('Average Perceptron', thetas_avg_perceptron)
+# plot_toy_results('Pegasos', thetas_pegasos)
 
 #-------------------------------------------------------------------------------
 # Problem 7

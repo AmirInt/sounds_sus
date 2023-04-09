@@ -61,6 +61,14 @@ def load_data(path_data, extras=False):
 
     return data
 
+
+def get_stopwords(path_stopwords: str) -> list:
+    with open("resources/" + path_stopwords) as file:
+        stopwords = [word for line in file.read().splitlines() for word in line.split()]
+
+    return stopwords
+
+
 def write_predictions(path_submit_data, preds):
     if PYTHON3:
         f_data = open(path_submit_data, encoding="latin1")

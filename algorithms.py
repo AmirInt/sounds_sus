@@ -2,6 +2,7 @@ from string import punctuation, digits
 import numpy as np
 import random
 import math
+import utils
 
 
 def get_order(n_samples: int) -> list:
@@ -331,7 +332,6 @@ def extract_words(text):
     return text.lower().split()
 
 
-
 def bag_of_words(texts: tuple, remove_stopword=False) -> dict:
     """Maps all the words in given input texts to some indices in a dictionary.
     NOTE: feel free to change this code as guided by Section 3 (e.g. remove
@@ -343,13 +343,14 @@ def bag_of_words(texts: tuple, remove_stopword=False) -> dict:
         a dictionary that maps each word appearing in `texts` to a unique
         integer `index`.
     """
-    
+    stopwords = utils.get_stopwords("stopwords.txt")
+
     indices_by_word = {}  # maps word to unique index
     for text in texts:
         word_list = extract_words(text)
         for word in word_list:
             if word in indices_by_word: continue
-            if word in stopword: continue
+            if word in stopwords: continue
             indices_by_word[word] = len(indices_by_word)
 
     return indices_by_word
