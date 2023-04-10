@@ -9,6 +9,9 @@ import numpy as np
 # Use the bigram model or the unigram one
 use_bigram = True
 
+# Remove stopwords or not
+remove_stopwords = True
+
 train_data = utils.load_data('reviews_train.tsv')
 val_data = utils.load_data('reviews_val.tsv')
 test_data = utils.load_data('reviews_test.tsv')
@@ -17,7 +20,10 @@ train_texts, train_labels = zip(*((sample['text'], sample['sentiment']) for samp
 val_texts, val_labels = zip(*((sample['text'], sample['sentiment']) for sample in val_data))
 test_texts, test_labels = zip(*((sample['text'], sample['sentiment']) for sample in test_data))
 
-dictionary = algorithms.bag_of_words(train_texts, use_bigram=use_bigram)
+dictionary = algorithms.bag_of_words(
+    train_texts
+    , remove_stopword=remove_stopwords
+    ,  use_bigram=use_bigram)
 
 train_bow_features = algorithms.extract_bow_feature_vectors(train_texts, dictionary
                                                             , use_bigram=use_bigram)
