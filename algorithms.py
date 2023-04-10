@@ -339,7 +339,8 @@ def extract_words(text):
     return text.lower().split()
 
 
-def bag_of_words(texts: tuple or list, remove_stopword: bool = False) -> dict:
+def bag_of_words(texts: tuple or list, remove_stopword: bool = True
+                 , use_bigram: bool = False) -> dict:
     """Maps all the words in given input texts to some indices in a dictionary.
     NOTE: feel free to change this code as guided by Section 3 (e.g. remove
     stopwords, add bigrams etc.)
@@ -352,18 +353,35 @@ def bag_of_words(texts: tuple or list, remove_stopword: bool = False) -> dict:
     """
     stopwords = utils.get_stopwords("stopwords.txt")
 
-    indices_by_word = {}  # maps word to unique index
+    indices_by_word = {}  # maps word or phrase to unique index
+
     for text in texts:
         word_list = extract_words(text)
-        for word in word_list:
-            if word in indices_by_word: continue
-            if word in stopwords: continue
-            indices_by_word[word] = len(indices_by_word)
+        if use_bigram:
+            for i in range(len(word_list) - 1):
+                word_pair = ' '.join((word_list[i], word_list[i + 1]))
+                if word_pair in indices_by_word:
+                    continue
+                if (remove_stopword and
+                    (word_list[i] in stopwords or 
+                     word_list[i + 1] in stopwords)):
+                    continue
+                indices_by_word[word_pair] = len(indices_by_word)
+        else:
+            for word in word_list:
+                if word in indices_by_word:
+                    continue
+                if remove_stopword and (word in stopwords):
+                    continue
+                indices_by_word[word] = len(indices_by_word)
 
     return indices_by_word
 
 
-def extract_bow_feature_vectors(reviews: tuple or list, indices_by_word: dict, binarise: bool = True):
+def extract_bow_feature_vectors(reviews: tuple or list
+                                ,indices_by_word: dict
+                                , binarise: bool = True
+                                , use_bigram: bool = False) -> np.ndarray:
     """Creates a boolean feature matrix based on the reviews
 
     Args:
@@ -377,12 +395,21 @@ def extract_bow_feature_vectors(reviews: tuple or list, indices_by_word: dict, b
     feature_matrix = np.zeros([len(reviews), len(indices_by_word)], dtype=np.float64)
     for i, text in enumerate(reviews):
         word_list = extract_words(text)
-        for word in word_list:
-            if word not in indices_by_word:
-                continue
-            feature_matrix[i, indices_by_word[word]] += 1
+        if use_bigram:
+            for j in range(len(word_list) - 1):
+                word_pair = ' '.join((word_list[j], word_list[j + 1]))
+                if word_pair not in indices_by_word:
+                    continue
+                feature_matrix[i, indices_by_word[word_pair]] += 1
+        else:
+            for word in word_list:
+                if word not in indices_by_word:
+                    continue
+                feature_matrix[i, indices_by_word[word]] += 1
+
     if binarise:
-        feature_matrix = (feature_matrix > 0).astype(np.float64)
+        return (feature_matrix > 0).astype(np.int32)
+
     return feature_matrix
 
 
